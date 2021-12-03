@@ -1,35 +1,15 @@
-import { useState } from 'react';
-import Modal from 'react-modal';
-import { Dashboard } from "./components/Dashboard";
-import { Header } from "./components/Header";
-import { NewTransactionModal } from './components/NewTransactionModal';
+import { Login } from "./pages/Login";
+import Main from './pages/Main';
 import { GlobalStyle } from "./styles/global";
-import {  TransactionsProvider } from './hooks/useTransactions';
-
-Modal.setAppElement('#root');
-
-
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 export function App() {
-  const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false);
-
-  function handleOpenNewTransactionModal(){
-      setIsNewTransactionModalOpen(true);
-  }
-
-  function handleCloseNewTransactionModal(){
-      setIsNewTransactionModalOpen(false);
-  }
-
   return (
-    <TransactionsProvider>
-      <Header onOpenNewTransactionModal={handleOpenNewTransactionModal}/>
-      <Dashboard />
-      <NewTransactionModal 
-        isOpen={isNewTransactionModalOpen}
-        onRequestClose={handleCloseNewTransactionModal}
-      />
-      <GlobalStyle/>
-    </TransactionsProvider>
+    <BrowserRouter>
+      <GlobalStyle />
+      <Switch>
+        <Route path="/" exact render={Login} />
+        <Route path="/main" render={() => <Main />} />
+      </Switch>
+    </BrowserRouter>
   );
 }
-
