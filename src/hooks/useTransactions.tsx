@@ -8,6 +8,7 @@ interface Transaction {
     type: string;
     category: string;
     createdAt: string;
+    usuario: string;
 }
 
 //interface TransactionInput {
@@ -38,7 +39,6 @@ export function TransactionsProvider({children}: TransactionsProvicerProps){
         api.get(`/transaction/1`)
         .then(response => {
             setTransactions(response.data)
-            console.log(response.data)
         }).catch(err => {
             console.log(err)
         })

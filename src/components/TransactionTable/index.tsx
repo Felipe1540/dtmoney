@@ -1,9 +1,17 @@
+import { useEffect, useState } from "react";
 import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
 export function TransactionTable(){
-    const {transactions} = useTransactions()
+    const {transactions} = useTransactions();
+    const [filterTransactions, setFilterTransactions] = useState([]);
+    const codigo = localStorage.getItem("id")
 
+    useEffect(() => {
+        
+    }, [])
+
+    
     return(
         <Container>
             <table>
@@ -27,6 +35,7 @@ export function TransactionTable(){
                                 }).format(transaction.amount)}
                             </td>
                             <td>{transaction.category}</td>
+                            <td>{transaction.usuario}</td>
                             <td>
                             {new Intl.DateTimeFormat('pt-BR').format(
                                 new Date(transaction.createdAt)

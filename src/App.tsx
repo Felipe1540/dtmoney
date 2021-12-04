@@ -7,7 +7,7 @@ export function App() {
     <BrowserRouter>
       <GlobalStyle />
       <Switch>
-        <Route path="/" exact render={Login} />
+        <Route path="/" exact render={() => <Login/>} />
         <Route path="/main" render={() => <Main />} />
       </Switch>
     </BrowserRouter>

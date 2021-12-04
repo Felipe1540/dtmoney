@@ -13,11 +13,12 @@ interface NewTransactionModalProps{
 }
 export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModalProps){
     const {createTransaction} = useTransactions();
-
+    const codigo = localStorage.getItem("id")
     const [title, setTitle] = useState('')
     const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
     const [type, setType] = useState('deposit');
+    const [usuario, setUsuario] = useState('')
 
      async function handleCreateNewTransaction(event: FormEvent){
         event.preventDefault();
@@ -27,6 +28,7 @@ export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModa
             amount,
             category,
             type,
+            usuario
         })
 
         setTitle('');
@@ -34,6 +36,7 @@ export function NewTransactionModal({isOpen, onRequestClose}: NewTransactionModa
         setCategory('');
         setType('deposit');
         onRequestClose();
+        setUsuario(codigo!)
     }
 
     return(
