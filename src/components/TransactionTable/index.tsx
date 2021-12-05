@@ -2,14 +2,28 @@ import { useEffect, useState } from "react";
 import { useTransactions } from "../../hooks/useTransactions";
 import { Container } from "./styles";
 
+interface Transaction {
+    id: number;
+    title: string;
+    amount: number;
+    type: string;
+    category: string;
+    createdAt: string;
+    usuario: string;
+}
+
 export function TransactionTable(){
     const {transactions} = useTransactions();
-    const [filterTransactions, setFilterTransactions] = useState([]);
+    const [filterTransactions, setFilterTransactions] = useState<Transaction[]>([]);
     const codigo = localStorage.getItem("id")
 
     useEffect(() => {
-        
-    }, [])
+        function filterTransactions(){
+            const filter = transactions.filter(transaction => transaction.usuario === codigo);
+            setFilterTransactions(filter);
+        }
+        filterTransactions();
+    }, [transactions]);
 
     
     return(
@@ -24,7 +38,7 @@ export function TransactionTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    {transactions.map(transaction =>{
+                    {filterTransactions.map(transaction =>{
                         return(
                             <tr key={transaction.id}>
                             <td>{transaction.title}</td>

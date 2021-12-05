@@ -48,9 +48,11 @@ export function TransactionsProvider({children}: TransactionsProvicerProps){
      const response = await api.post('/transactions', {
          ...transactionInput,
          createdAt: new Date(),
-     })
-     const {transaction} = response.data;
+        })
 
+
+        const {transaction} = response.data;
+                
      setTransactions([
         ...transactions,
         transaction,
