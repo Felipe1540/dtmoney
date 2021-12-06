@@ -28,7 +28,7 @@ export function Login() {
         senha: password
       })
         if(response.data){
-          localStorage.setItem("id", response.data.codigo)
+          localStorage.setItem("usuario", JSON.stringify(response.data));
           history.push('/main')
         }
         //avisar senha ou login invalidos

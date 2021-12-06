@@ -8,7 +8,11 @@ interface Transaction {
     type: string;
     category: string;
     createdAt: string;
-    usuario: string;
+    usuario: {
+        codigo: number;
+        login: string;
+        senha: string;
+    };
 }
 
 //interface TransactionInput {
@@ -36,7 +40,7 @@ export const TransactionsContext = createContext<TransactionsContextData>(
 export function TransactionsProvider({children}: TransactionsProvicerProps){
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     useEffect(() =>{
-        api.get(`/transaction/1`)
+        api.get(`/transaction`)
         .then(response => {
             setTransactions(response.data)
         }).catch(err => {
@@ -45,7 +49,7 @@ export function TransactionsProvider({children}: TransactionsProvicerProps){
     }, []);
 
     async function createTransaction(transactionInput: TransactionInput) { 
-     const response = await api.post('/transactions', {
+     const response = await api.post('/transaction/save', {
          ...transactionInput,
          createdAt: new Date(),
         })

@@ -9,21 +9,25 @@ interface Transaction {
     type: string;
     category: string;
     createdAt: string;
-    usuario: string;
+    usuario: {
+        codigo: number;
+        login: string;
+        senha: string;
+    };
 }
 
 export function TransactionTable(){
     const {transactions} = useTransactions();
     const [filterTransactions, setFilterTransactions] = useState<Transaction[]>([]);
-    const codigo = localStorage.getItem("id")
+    const storageUser = JSON.parse(localStorage.getItem('usuario')!);
 
-    useEffect(() => {
-        function filterTransactions(){
-            const filter = transactions.filter(transaction => transaction.usuario === codigo);
-            setFilterTransactions(filter);
-        }
-        filterTransactions();
-    }, [transactions]);
+    
+    // useEffect(() => {
+    //     function filterTransactions(){
+        
+    //     }
+    //     filterTransactions();
+    // }, []);
 
     
     return(
@@ -38,7 +42,7 @@ export function TransactionTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    {filterTransactions.map(transaction =>{
+                    {transactions.map(transaction =>{
                         return(
                             <tr key={transaction.id}>
                             <td>{transaction.title}</td>
@@ -49,7 +53,6 @@ export function TransactionTable(){
                                 }).format(transaction.amount)}
                             </td>
                             <td>{transaction.category}</td>
-                            <td>{transaction.usuario}</td>
                             <td>
                             {new Intl.DateTimeFormat('pt-BR').format(
                                 new Date(transaction.createdAt)
