@@ -42,25 +42,36 @@ export function TransactionsProvider({children}: TransactionsProvicerProps){
     useEffect(() =>{
         api.get(`/transaction`)
         .then(response => {
-            setTransactions(response.data)
+            const storageUser = localStorage.getItem('usuario');
+            if(!storageUser){
+                setTransactions(response.data);
+                return
+            }
+            const userParsed = JSON.parse(storageUser)
+            const transactionResponse = response.data
+            setTransactions(transactionResponse.filter((t: any) => t.usuario.codigo === userParsed.codigo))
         }).catch(err => {
             console.log(err)
         })
     }, []);
 
     async function createTransaction(transactionInput: TransactionInput) { 
-     const response = await api.post('/transaction/save', {
-         ...transactionInput,
-         createdAt: new Date(),
-        })
-
-
-        const {transaction} = response.data;
+        try {
+            const response = await api.post('/transaction/save', {
+             ...transactionInput,
+             createdAt: new Date(),
+            })
+    
+           const transaction = response.data;
+            
+            setTransactions([
+               ...transactions,
+               transaction,
+            ]);
+        } catch (err) {
+            console.log(err)
+        }
                 
-     setTransactions([
-        ...transactions,
-        transaction,
-     ]);
     }
 
     return (

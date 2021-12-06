@@ -9,27 +9,11 @@ interface Transaction {
     type: string;
     category: string;
     createdAt: string;
-    usuario: {
-        codigo: number;
-        login: string;
-        senha: string;
-    };
 }
 
 export function TransactionTable(){
     const {transactions} = useTransactions();
-    const [filterTransactions, setFilterTransactions] = useState<Transaction[]>([]);
-    const storageUser = JSON.parse(localStorage.getItem('usuario')!);
 
-    
-    // useEffect(() => {
-    //     function filterTransactions(){
-        
-    //     }
-    //     filterTransactions();
-    // }, []);
-
-    
     return(
         <Container>
             <table>

@@ -31,6 +31,7 @@ export function Login() {
         if(response.data){
           localStorage.setItem("usuario", JSON.stringify(response.data));
           history.push('/main')
+          return
         }
         //avisar senha ou login invalidos
         Swal.fire({
@@ -49,10 +50,38 @@ export function Login() {
 
   async function handleSignup() {
     try {
-      await api.post('/usuario/salvar', {
+      if(newLogin === '' || newPassword === ''){
+        Swal.fire({
+          icon: 'error',
+          title: 'Falha ao cadastrar',
+          text: 'Por favor preencha os campos',
+        })
+        return
+      }
+       const response = await api.post('/usuario/salvar', {
         login: newLogin,
         senha: newPassword
       });
+      if(response.data){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Cadastrado com sucesso',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        setNewLogin('')
+        setNewPassword('')
+        return
+      }
+      Swal.fire({
+        icon: 'error',
+        title: 'Falha ao cadastrar',
+        text: 'Ocorreu um erro ao cadastrar',
+      })
+      setNewLogin('')
+      setNewPassword('')
+      return
     } catch (err) {
       Swal.fire({
         icon: 'error',
@@ -98,12 +127,14 @@ export function Login() {
               <InputGroup.Text id="basic-addon1">New username:</InputGroup.Text>
               <FormControl aria-label="Username"
                 onChange={e => setNewLogin(e.target.value)}
+                value={newLogin}
               />
             </InputGroup>
             <InputGroup className="mb-3">
               <InputGroup.Text id="basic-addon1">New password:</InputGroup.Text>
               <FormControl aria-label="Password"
                 onChange={e => setNewPassword(e.target.value)}
+                value={newPassword}
                 type="password"
               />
             </InputGroup>
