@@ -10,6 +10,7 @@ import { HeaderContainer, Content } from "./styles";
 import logoImg from '../../assets/logo.svg'
 import { useState } from 'react';
 import { api } from "../../services/api";
+import Swal from 'sweetalert2'
 import { useHistory } from "react-router";
 
 
@@ -32,8 +33,17 @@ export function Login() {
           history.push('/main')
         }
         //avisar senha ou login invalidos
+        Swal.fire({
+          icon: 'error',
+          title: 'Falha ao conectar',
+          text: 'Login ou senha inválidos',
+        })
     } catch (err) {
-      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Falha ao conectar',
+        text: 'Houve um erro ao se conectar',
+      })
     }
   }
 
@@ -44,7 +54,11 @@ export function Login() {
         senha: newPassword
       });
     } catch (err) {
-      console.log(err)
+      Swal.fire({
+        icon: 'error',
+        title: 'Falha ao cadastrar',
+        text: 'Ocorreu um erro ao cadastrar',
+      })
     }
   }
 
